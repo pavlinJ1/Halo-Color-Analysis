@@ -5,39 +5,26 @@ from sklearn.cluster import MiniBatchKMeans
 from tqdm import tqdm
 import os
 
-# =========================
-# CONFIG
-# =========================
 
-csv_path = "images.csv"
+csv_path = "metadata/images.csv"
 image_dir = "images"
 
-k_colors = 5
-resize_dim = 100  # smaller = faster
+k_colors = 5      # number of dominant colors
+resize_dim = 100  # scale for faster analysis
 
-# =========================
-# LOAD CSV
-# =========================
 
 df = pd.read_csv(csv_path)
 
-# =========================
-# FIX / INITIALIZE COLUMNS
-# =========================
 
-# Numeric columns
 df["avg_hue"] = np.nan
 df["avg_saturation"] = np.nan
 df["avg_brightness"] = np.nan
 
-# Color columns (STRING type!)
 for i in range(k_colors):
     col = f"dom_color_{i+1}"
     df[col] = ""
 
-# =========================
-# FUNCTIONS
-# =========================
+
 
 def get_avg_hsv(image):
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
@@ -60,9 +47,7 @@ def get_dominant_colors(image, k=5):
 
     return hex_colors
 
-# =========================
-# PROCESS IMAGES
-# =========================
+
 
 for i in tqdm(range(len(df)), desc="Processing images"):
     path = os.path.join(image_dir, df.at[i, "filename"])
@@ -77,11 +62,9 @@ for i in tqdm(range(len(df)), desc="Processing images"):
         print(f"Failed to load: {path}")
         continue
 
-    # --- compute ---
     avg_h, avg_s, avg_v = get_avg_hsv(image)
     dom_colors = get_dominant_colors(image, k_colors)
 
-    # --- assign ---
     df.loc[i, "avg_hue"] = round(avg_h, 2)
     df.loc[i, "avg_saturation"] = round(avg_s, 2)
     df.loc[i, "avg_brightness"] = round(avg_v, 2)
@@ -89,10 +72,8 @@ for i in tqdm(range(len(df)), desc="Processing images"):
     for j in range(k_colors):
         df.loc[i, f"dom_color_{j+1}"] = dom_colors[j]
 
-# =========================
-# SAVE CSV
-# =========================
 
 df.to_csv(csv_path, index=False)
 
 print("\nAnalysis complete.")
+

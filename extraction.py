@@ -3,23 +3,16 @@ import os
 import pandas as pd
 from tqdm import tqdm
 
-# =========================
-# CONFIG
-# =========================
+video_path = "videos/halo_infinite.mp4"
+output_dir = "images"
+csv_path = "metadata/images.csv"
 
-video_path = "videos/halo_infinite.mp4"   # input video
-output_dir = "images"               # where images go
-csv_path = "images.csv"             # single CSV file
+start_index = 19555  # manually set the starting index
+crop_enabled = False # some halo games have 130px border on top and bottom
+crop_pixels = 130
 
-start_index = 19555   # <-- set per game
-crop_enabled = False  # <-- True / False
-crop_pixels = 130    # pixels removed from top and bottom
+fps_extract = 1
 
-fps_extract = 1      # frames per second to extract
-
-# =========================
-# SETUP
-# =========================
 
 os.makedirs(output_dir, exist_ok=True)
 
@@ -36,7 +29,7 @@ total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
 frame_interval = int(video_fps / fps_extract)
 
-# Estimate how many images will be saved
+# estimate how many images will be saved
 estimated_images = total_frames // frame_interval
 
 data = []
@@ -44,9 +37,7 @@ data = []
 frame_count = 0
 saved_count = 0
 
-# =========================
-# PROCESS VIDEO
-# =========================
+
 
 with tqdm(total=estimated_images, desc=f"Processing {video_name}") as pbar:
     while True:
@@ -57,7 +48,6 @@ with tqdm(total=estimated_images, desc=f"Processing {video_name}") as pbar:
         if frame_count % frame_interval == 0:
             timestamp_sec = frame_count / video_fps
 
-            # Crop if enabled
             if crop_enabled:
                 h, w, _ = frame.shape
                 if crop_pixels * 2 < h:  # safety check
@@ -65,15 +55,12 @@ with tqdm(total=estimated_images, desc=f"Processing {video_name}") as pbar:
                 else:
                     print("Warning: crop too large for this video, skipping crop.")
 
-            # Create filename with global index
             img_index = start_index + saved_count
             filename = f"img_{img_index:05d}.jpg"
             filepath = os.path.join(output_dir, filename)
 
-            # Save image
             cv2.imwrite(filepath, frame)
 
-            # Save metadata
             data.append({
                 "filename": filename,
                 "game_id": game_id,
@@ -87,9 +74,6 @@ with tqdm(total=estimated_images, desc=f"Processing {video_name}") as pbar:
 
 cap.release()
 
-# =========================
-# SAVE / APPEND CSV
-# =========================
 
 df = pd.DataFrame(data)
 
