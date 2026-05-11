@@ -1,4 +1,4 @@
-Unnamed: 0,filename,game_id,timestamp,avg_hue,avg_saturation,avg_brightness,dom_color_1,dom_color_2,dom_color_3,dom_color_4,dom_color_5,warmth,valence,arousal,emotion_label
+filename,game_id,timestamp,avg_hue,avg_saturation,avg_brightness,dom_color_1,dom_color_2,dom_color_3,dom_color_4,dom_color_5,warmth,valence,arousal,emotion_label
 0,img_00000.jpg,halo_ce,0.0,22.85,48.7,19.14,#1a6ee9,#00000a,#052b85,#010738,#000000,0.8476,-0.649,-0.0463,melancholic
 1,img_00001.jpg,halo_ce,0.98,12.96,27.21,0.55,#000000,#000000,#000005,#01000f,#000002,0.9491,-0.7645,-0.0834,melancholic
 2,img_00002.jpg,halo_ce,1.97,9.85,20.88,0.19,#000000,#000002,#000004,#000004,#000000,0.9704,-0.7721,-0.1081,melancholic
