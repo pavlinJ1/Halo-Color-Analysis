@@ -1,9 +1,9 @@
-game_id,title,short_title,release_year,developer,art_director,engine
-halo_ce,"Halo: Combat Evolved",halo_ce,2001,Bungie,Marcus Lehto,blam
-halo_2,"Halo 2",halo_2,2004,Bungie,Marcus Lehto,blam
-halo_3,"Halo 3",halo_3,2007,Bungie,Marcus Lehto,blam
-halo_odst,"Halo 3: ODST",halo_odst,2009,Bungie,Ryan Payton,blam
-halo_reach,"Halo: Reach",halo_reach,2010,Bungie,Marcus Lehto,blam
-halo_4,"Halo 4",halo_4,2012,343 Industries,Kenneth Scott,blam_modified
-halo_5,"Halo 5: Guardians",halo_5,2015,343 Industries,Kenneth Scott,blam_modified
-halo_infinite,"Halo Infinite",halo_infinite,2021,343 Industries,Nicolas Bouvier,slipspace
+game_id,title,release_year,developer,art_director,engine
+halo_ce,"Halo: Combat Evolved",2001,Bungie,Marcus Lehto,blam
+halo_2,"Halo 2",2004,Bungie,Marcus Lehto,blam
+halo_3,"Halo 3",2007,Bungie,Marcus Lehto,blam
+halo_odst,"Halo 3: ODST",2009,Bungie,Ryan Payton,blam
+halo_reach,"Halo: Reach",2010,Bungie,Marcus Lehto,blam
+halo_4,"Halo 4",2012,343 Industries,Kenneth Scott,blam_modified
+halo_5,"Halo 5: Guardians",2015,343 Industries,Kenneth Scott,blam_modified
+halo_infinite,"Halo Infinite",2021,343 Industries,Nicolas Bouvier,slipspace
