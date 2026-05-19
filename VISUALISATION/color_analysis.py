@@ -9,7 +9,7 @@ import os
 # CONFIG
 # =========================
 
-images_csv = "metadata/images.csv"
+images_csv = "metadata/1 - images post basic analysis.csv"
 games_csv = "metadata/games.csv"
 output_dir = "output"
 
