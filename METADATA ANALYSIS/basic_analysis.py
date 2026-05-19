@@ -6,8 +6,8 @@ from tqdm import tqdm
 import os
 
 
-csv_path = "metadata/images.csv"
-image_dir = "images"
+csv_path = "../metadata/images.csv"
+image_dir = "../images"
 
 k_colors = 5      # number of dominant colors
 resize_dim = 100  # scale for faster analysis

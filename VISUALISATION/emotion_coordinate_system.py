@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 # LOAD DATA
 # =========================
 
-df = pd.read_csv("metadata/images.csv")
+df = pd.read_csv("../metadata/images.csv")
 
 # =========================
 # GROUP BY GAME

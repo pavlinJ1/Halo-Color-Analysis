@@ -3,9 +3,9 @@ import os
 import pandas as pd
 from tqdm import tqdm
 
-video_path = "videos/halo_infinite.mp4"
-output_dir = "images"
-csv_path = "metadata/images.csv"
+video_path = "../videos/halo_infinite.mp4"
+output_dir = "../images"
+csv_path = "../metadata/images.csv"
 
 start_index = 19555  # manually set the starting index
 crop_enabled = False # some halo games have 130px border on top and bottom

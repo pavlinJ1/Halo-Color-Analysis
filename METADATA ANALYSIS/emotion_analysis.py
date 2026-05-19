@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-csv_path = "metadata/images.csv"
+csv_path = "../metadata/images.csv"
 
 df = pd.read_csv(csv_path)
 
