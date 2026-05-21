@@ -109,7 +109,7 @@ ax.grid(alpha=0.2)
 ax.legend(
     legend_handles,
     legend_labels,
-    title="Average points",
+    title="Legend:",
     loc="center left",
     bbox_to_anchor=(1.02, 0.5),
     frameon=True
