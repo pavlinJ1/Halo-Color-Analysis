@@ -15,10 +15,8 @@ W = (np.cos(2 * np.pi * H) + 1) / 2
 P_raw = 0.69 * B + 0.22 * S
 A_raw = -0.31 * B + 0.60 * S
 
-# Scale pleasure/valence to [-1, 1]
 P = 2 * (P_raw / 0.91) - 1
 
-# Scale arousal to [-1, 1]
 A_min = -0.31
 A_max = 0.60
 A = 2 * ((A_raw - A_min) / (A_max - A_min)) - 1

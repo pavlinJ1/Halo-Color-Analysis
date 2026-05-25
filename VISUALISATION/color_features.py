@@ -15,7 +15,7 @@ os.makedirs("output", exist_ok=True)
 df = pd.read_csv(images_path)
 games = pd.read_csv(games_path)
 
-# Preserve release order from games.csv
+
 games["game_order"] = range(len(games))
 
 df = df.merge(
@@ -50,11 +50,6 @@ def rgb_to_hex(rgb):
 
 
 def get_weighted_average_color(sub_df, prefix="nodark"):
-    """
-    Calculates a game-level average color from the stored dominant palette columns.
-    This is not a true pixel average from the original images.
-    It is a weighted average of dominant palette colors.
-    """
     total_rgb = np.zeros(3)
     total_weight = 0
 
@@ -87,21 +82,11 @@ def text_color_for_bg(rgb_01):
 
 
 def brightness_color(value):
-    """
-    Actual brightness value is 0-255.
-    Cell color is grayscale using that actual value.
-    """
     v = np.clip(value / 255.0, 0, 1)
     return (v, v, v)
 
 
 def saturation_color(value):
-    """
-    Actual saturation value is 0-255.
-    Uses one fixed blue hue; only saturation changes.
-    Low saturation = pale/grayish.
-    High saturation = vivid blue.
-    """
     s = np.clip(value / 255.0, 0, 1)
     h = 0.58
     v = 0.92
@@ -109,20 +94,11 @@ def saturation_color(value):
 
 
 def contrast_color(value):
-    """
-    Actual contrast value is 0-255.
-    Higher contrast gets brighter grayscale.
-    """
     v = np.clip(value / 255.0, 0, 1)
     return (v, v, v)
 
 
 def warmth_color(value):
-    """
-    Warmth is 0-1.
-    0 = cool blue
-    1 = warm orange
-    """
     value = np.clip(value, 0, 1)
 
     cool = np.array([55, 105, 170]) / 255.0
@@ -174,7 +150,6 @@ ax.set_xlim(0, n_cols)
 ax.set_ylim(0, n_games)
 ax.axis("off")
 
-# Header
 for col_idx, col_name in enumerate(columns):
     ax.text(
         col_idx + 0.5,
@@ -186,11 +161,9 @@ for col_idx, col_name in enumerate(columns):
         fontweight="bold"
     )
 
-# Rows
 for row_idx, row in summary.iterrows():
     y = n_games - row_idx - 1
 
-    # Game title
     ax.text(
         -0.15,
         y + 0.5,
@@ -252,7 +225,6 @@ for row_idx, row in summary.iterrows():
             color=text_color_for_bg(bg)
         )
 
-# Thin horizontal separators
 for y in range(n_games + 1):
     ax.plot(
         [-0.02, n_cols],

@@ -13,7 +13,7 @@ os.makedirs("output", exist_ok=True)
 df = pd.read_csv(images_path)
 games = pd.read_csv(games_path)
 
-# Preserve release order from games.csv
+
 games["game_order"] = range(len(games))
 
 df = df.merge(
@@ -27,7 +27,7 @@ metrics = [
     ("avg_saturation", "Saturation", "0–255"),
     ("contrast", "Contrast", "0–255"),
     ("warmth", "Warmth", "0–1"),
-    ("valence", "Valence", "-1 to 1"),
+    ("valence", "Pleasure", "-1 to 1"),
     ("arousal", "Arousal", "-1 to 1")
 ]
 
@@ -40,7 +40,6 @@ summary = (
 
 titles = summary["title"].tolist()
 
-# Earliest game at top, latest at bottom
 y_positions = np.arange(len(titles))[::-1]
 
 fig, axes = plt.subplots(
@@ -64,7 +63,6 @@ for ax, (metric, label, scale_label) in zip(axes, metrics):
         alpha=0.65
     )
 
-    # End points
     ax.scatter(
         values,
         y_positions,

@@ -22,7 +22,6 @@ df = df.merge(
 
 games_ordered = games.sort_values("game_order")
 
-# Per-game averages
 game_avg = (
     df.groupby(["game_id", "title", "game_order"])[["valence", "arousal"]]
     .mean()
@@ -30,13 +29,12 @@ game_avg = (
     .sort_values("game_order")
 )
 
-# Overall average
 overall_valence = df["valence"].mean()
 overall_arousal = df["arousal"].mean()
 
 fig, ax = plt.subplots(figsize=(11, 8))
 
-# Background all-frame cloud
+
 ax.scatter(
     df["valence"],
     df["arousal"],
@@ -45,13 +43,12 @@ ax.scatter(
     color="gray"
 )
 
-# Default matplotlib color cycle
 color_cycle = plt.rcParams["axes.prop_cycle"].by_key()["color"]
 
 legend_handles = []
 legend_labels = []
 
-# Plot per-game averages as X markers
+
 for i, (_, row) in enumerate(game_avg.iterrows()):
     x = row["valence"]
     y = row["arousal"]
@@ -73,7 +70,6 @@ for i, (_, row) in enumerate(game_avg.iterrows()):
     legend_handles.append(handle)
     legend_labels.append(title)
 
-# Plot overall average as bigger filled dot
 overall_handle = ax.scatter(
     overall_valence,
     overall_arousal,
@@ -86,18 +82,17 @@ overall_handle = ax.scatter(
 legend_handles.append(overall_handle)
 legend_labels.append("All Halo Games")
 
-# Axes and quadrant lines
 ax.axhline(0, linewidth=1)
 ax.axvline(0, linewidth=1)
 
 ax.set_xlim(-1, 1)
 ax.set_ylim(-1, 1)
 
-ax.set_xlabel("Valence")
+ax.set_xlabel("Pleasure")
 ax.set_ylabel("Arousal")
 ax.set_title("Emotional Coordinate System with Game Averages", fontsize=16, pad=16)
 
-# Quadrant labels
+
 ax.text(-0.95, 0.9, "tense", fontsize=10)
 ax.text(0.62, 0.9, "energetic", fontsize=10)
 ax.text(0.68, -0.93, "calm", fontsize=10)
@@ -105,11 +100,11 @@ ax.text(-0.95, -0.93, "melancholic", fontsize=10)
 
 ax.grid(alpha=0.2)
 
-# Legend instead of overlapping labels
+
 ax.legend(
     legend_handles,
     legend_labels,
-    title="Legend:",
+    title="Game",
     loc="center left",
     bbox_to_anchor=(1.02, 0.5),
     frameon=True

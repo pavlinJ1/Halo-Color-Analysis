@@ -156,7 +156,6 @@ def warmth_color(value):
     return tuple(rgb)
 
 
-# Overall series metrics
 avg_color_full_rgb = get_weighted_average_color(df, prefix="full")
 
 overall_full_hexes, overall_full_pcts = extract_palette(df, prefix="full", k=5)
@@ -177,11 +176,10 @@ columns = [
 
 fig, ax = plt.subplots(figsize=(14, 5.8))
 
-ax.set_xlim(0, len(columns))
+ax.set_xlim(0, 6)
 ax.set_ylim(0, 4.2)
 ax.axis("off")
 
-# Title
 ax.set_title(
     "Overall Halo Series Color Features",
     fontsize=18,
@@ -192,7 +190,6 @@ ax.set_title(
 palette_total_width = 4.8
 x_start = 1.0
 
-# Full palette
 ax.text(
     0.75,
     3.25,
@@ -217,7 +214,6 @@ for color, weight in zip(overall_full_hexes, overall_full_pcts):
     ax.add_patch(rect)
     x += width
 
-# No-dark palette
 ax.text(
     0.75,
     2.6,
@@ -242,7 +238,6 @@ for color, weight in zip(overall_nodark_hexes, overall_nodark_pcts):
     ax.add_patch(rect)
     x += width
 
-# Column headers
 for col_idx, col_name in enumerate(columns):
     ax.text(
         col_idx + 0.5,
@@ -254,7 +249,7 @@ for col_idx, col_name in enumerate(columns):
         fontweight="bold"
     )
 
-# Row label
+
 ax.text(
     -0.15,
     0.75,
@@ -265,7 +260,6 @@ ax.text(
     fontweight="bold"
 )
 
-# Data cells
 cell_data = [
     {
         "color": tuple(avg_color_full_rgb / 255.0),
@@ -313,7 +307,6 @@ for col_idx, cell in enumerate(cell_data):
         color=text_color_for_bg(bg)
     )
 
-# Subtle guide line
 ax.plot([-0.02, len(columns)], [1.25, 1.25], color="#eaeaea", linewidth=1.0)
 
 

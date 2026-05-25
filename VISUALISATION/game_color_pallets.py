@@ -15,7 +15,6 @@ os.makedirs("output", exist_ok=True)
 df = pd.read_csv(images_path)
 games = pd.read_csv(games_path)
 
-# Preserve release/order from games.csv
 games["game_order"] = range(len(games))
 
 df = df.merge(
@@ -191,7 +190,6 @@ for row_idx, row in enumerate(palette_rows):
         ax.add_patch(rect)
         x += width
 
-    # If weights do not fill the full width because of missing colors
     if x < x_start + available_width:
         rect = patches.Rectangle(
             (x, y + 0.15),
@@ -203,7 +201,7 @@ for row_idx, row in enumerate(palette_rows):
         )
         ax.add_patch(rect)
 
-ax.set_title("Dominant Color Palettes by Game", fontsize=14, pad=15)
+ax.set_title("Color Palettes by Game", fontsize=14, pad=15)
 
 plt.tight_layout()
 plt.savefig(output_path, dpi=150, bbox_inches="tight")

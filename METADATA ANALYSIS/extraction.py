@@ -7,7 +7,7 @@ video_path = "../videos/halo_infinite.mp4"
 output_dir = "../images"
 csv_path = "../metadata/images.csv"
 
-start_index = 19555  # manually set the starting index
+start_index = 19555
 crop_enabled = False # some halo games have 130px border on top and bottom
 crop_pixels = 130
 
@@ -17,7 +17,7 @@ fps_extract = 1
 os.makedirs(output_dir, exist_ok=True)
 
 video_name = os.path.splitext(os.path.basename(video_path))[0]
-game_id = video_name  # uses filename as game_id
+game_id = video_name
 
 cap = cv2.VideoCapture(video_path)
 
@@ -29,7 +29,6 @@ total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
 frame_interval = int(video_fps / fps_extract)
 
-# estimate how many images will be saved
 estimated_images = total_frames // frame_interval
 
 data = []

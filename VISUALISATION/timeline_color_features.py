@@ -1,10 +1,13 @@
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 
 
 images_path = "../metadata/images.csv"
 games_path = "../metadata/games.csv"
+image_dir = "../images"
 output_dir = "output/timeline_color_features"
 
 os.makedirs(output_dir, exist_ok=True)
@@ -12,7 +15,7 @@ os.makedirs(output_dir, exist_ok=True)
 df = pd.read_csv(images_path)
 games = pd.read_csv(games_path)
 
-# Preserve release/order from games.csv
+
 games["game_order"] = range(len(games))
 
 df = df.merge(
@@ -23,8 +26,70 @@ df = df.merge(
 
 games_ordered = games.sort_values("game_order")
 
-# Adjust this if the lines are too jagged or too smooth
 rolling_window = 50
+
+
+def add_frame_annotation(ax, row, y_col, label, xybox, label_color):
+    frame_path = os.path.join(image_dir, row["filename"])
+
+    if not os.path.exists(frame_path):
+        print(f"Missing frame image: {frame_path}")
+        return
+
+    try:
+        img = mpimg.imread(frame_path)
+    except Exception as e:
+        print(f"Could not read image: {frame_path} ({e})")
+        return
+
+    x = row["timestamp"]
+    y = row[y_col]
+
+    ax.scatter(
+        x,
+        y,
+        s=40,
+        color=label_color,
+        zorder=6
+    )
+
+    imagebox = OffsetImage(
+        img,
+        zoom=0.09
+    )
+
+    ab = AnnotationBbox(
+        imagebox,
+        (x, y),
+        xybox=xybox,
+        xycoords="data",
+        boxcoords="axes fraction",
+        frameon=False,
+        arrowprops=dict(
+            arrowstyle="->",
+            color="black",
+            linewidth=1.2,
+            shrinkA=4,
+            shrinkB=4
+        ),
+        zorder=7
+    )
+
+    ax.add_artist(ab)
+
+    ax.text(
+        xybox[0],
+        xybox[1] + 0.095,
+        label,
+        transform=ax.transAxes,
+        ha="center",
+        va="bottom",
+        fontsize=8,
+        fontweight="bold",
+        color=label_color,
+        zorder=8
+    )
+
 
 for _, game_row in games_ordered.iterrows():
     game_id = game_row["game_id"]
@@ -35,7 +100,7 @@ for _, game_row in games_ordered.iterrows():
     if sub.empty:
         continue
 
-    sub = sub.sort_values("timestamp")
+    sub = sub.sort_values("timestamp").reset_index(drop=True)
 
     sub["brightness_smooth"] = (
         sub["avg_brightness"]
@@ -55,7 +120,7 @@ for _, game_row in games_ordered.iterrows():
         .mean()
     )
 
-    fig, ax = plt.subplots(figsize=(12, 5))
+    fig, ax = plt.subplots(figsize=(16, 7))
 
     ax.plot(
         sub["timestamp"],
@@ -90,7 +155,38 @@ for _, game_row in games_ordered.iterrows():
     ax.legend(loc="upper right", frameon=True)
 
 
-    plt.tight_layout()
+    plt.subplots_adjust(right=0.70)
+
+    brightness_max = sub.loc[sub["brightness_smooth"].idxmax()]
+    saturation_max = sub.loc[sub["saturation_smooth"].idxmax()]
+    contrast_max = sub.loc[sub["contrast_smooth"].idxmax()]
+
+    add_frame_annotation(
+        ax,
+        brightness_max,
+        "brightness_smooth",
+        "",
+        xybox=(1.20, 0.74),
+        label_color="#4c72b0"
+    )
+
+    add_frame_annotation(
+        ax,
+        saturation_max,
+        "saturation_smooth",
+        "",
+        xybox=(1.20, 0.46),
+        label_color="#dd8452"
+    )
+
+    add_frame_annotation(
+        ax,
+        contrast_max,
+        "contrast_smooth",
+        "",
+        xybox=(1.20, 0.18),
+        label_color="#55a868"
+    )
 
     output_path = os.path.join(output_dir, f"{game_id}.png")
     plt.savefig(output_path, dpi=200, bbox_inches="tight")

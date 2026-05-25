@@ -16,7 +16,7 @@ os.makedirs("output", exist_ok=True)
 df = pd.read_csv(images_path)
 games = pd.read_csv(games_path)
 
-# Developer order exactly as it first appears in games.csv
+
 developer_order = list(pd.unique(games["developer"]))
 
 df = df.merge(
@@ -287,7 +287,7 @@ metrics = [
     ("avg_saturation", "Saturation"),
     ("contrast", "Contrast"),
     ("warmth", "Warmth"),
-    ("valence", "Valence"),
+    ("valence", "Pleasure"),
     ("arousal", "Arousal")
 ]
 
@@ -305,7 +305,6 @@ ax.set_facecolor("white")
 for row_idx, row in summary.iterrows():
     y0 = n_devs - row_idx - 1
 
-    # Developer name
     ax.text(
         0.04,
         y0 + 0.78,
@@ -338,7 +337,7 @@ for row_idx, row in summary.iterrows():
         color="#777777"
     )
 
-    # Palette bars
+
     ax.text(
         0.30,
         y0 + 0.78,
@@ -379,7 +378,6 @@ for row_idx, row in summary.iterrows():
         weights=row["nodark_weights"]
     )
 
-    # Average color cell
     avg_bg = tuple(row["avg_color_rgb"] / 255.0)
 
     rect = patches.Rectangle(
@@ -413,7 +411,7 @@ for row_idx, row in summary.iterrows():
         color=text_color_for_bg(avg_bg)
     )
 
-    # Metric cells
+
     start_x = 0.25
     cell_w = 0.105
     gap = 0.012

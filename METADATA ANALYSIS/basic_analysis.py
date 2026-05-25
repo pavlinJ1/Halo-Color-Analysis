@@ -14,7 +14,6 @@ resize_dim = 120
 
 df = pd.read_csv(csv_path)
 
-# Basic global color stats
 for col in [
     "avg_hue",
     "avg_saturation",
@@ -26,12 +25,11 @@ for col in [
 ]:
     df[col] = np.nan
 
-# Full-frame palette
 for i in range(k_colors):
     df[f"full_color_{i+1}"] = ""
     df[f"full_color_{i+1}_pct"] = np.nan
 
-# Palette with dark pixels removed
+
 for i in range(k_colors):
     df[f"nodark_color_{i+1}"] = ""
     df[f"nodark_color_{i+1}_pct"] = np.nan
@@ -48,7 +46,6 @@ def get_hsv_stats(image_rgb):
     hsv = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2HSV)
     h, s, v = cv2.split(hsv)
 
-    # Circular mean for hue
     hue_rad = h.astype(np.float32) * 2 * np.pi / 180
     mean_sin = np.mean(np.sin(hue_rad))
     mean_cos = np.mean(np.cos(hue_rad))
